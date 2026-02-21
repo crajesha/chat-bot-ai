@@ -16,15 +16,14 @@ serve(async (req) => {
     const HF_KEY = Deno.env.get("HUGGINGFACE_API_KEY");
     if (!HF_KEY) throw new Error("HUGGINGFACE_API_KEY is not configured");
 
-    // Build prompt from messages
-    const prompt = messages
-      .map((m: { role: string; content: string }) =>
-        m.role === "user" ? `User: ${m.content}` : `Assistant: ${m.content}`
-      )
-      .join("\n") + "\nAssistant:";
+    // Build prompt in Mistral instruct format
+    const formattedMessages = messages.map((m: { role: string; content: string }) => ({
+      role: m.role === "user" ? "user" : "assistant",
+      content: m.content,
+    }));
 
     const response = await fetch(
-      "https://router.huggingface.co/hf-inference/models/mistralai/Mistral-7B-Instruct-v0.3",
+      "https://router.huggingface.co/hf-inference/models/microsoft/Phi-3-mini-4k-instruct/v1/chat/completions",
       {
         method: "POST",
         headers: {
@@ -32,16 +31,16 @@ serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          inputs: prompt,
-          parameters: {
-            max_new_tokens: 1024,
-            temperature: 0.7,
-            return_full_text: false,
-          },
+          model: "microsoft/Phi-3-mini-4k-instruct",
+          messages: [
+            { role: "system", content: "You are Promi, a helpful AI assistant created by C.Rajesha. Be concise and helpful." },
+            ...formattedMessages,
+          ],
+          max_tokens: 1024,
+          temperature: 0.7,
         }),
       }
     );
-
     if (!response.ok) {
       const errText = await response.text();
       console.error("HuggingFace error:", response.status, errText);
@@ -53,7 +52,7 @@ serve(async (req) => {
 
     const data = await response.json();
     const generatedText =
-      data?.[0]?.generated_text?.trim() || "I'm not sure how to respond to that.";
+      data?.choices?.[0]?.message?.content?.trim() || data?.[0]?.generated_text?.trim() || "I'm not sure how to respond to that.";
 
     return new Response(
       JSON.stringify({ response: generatedText }),
