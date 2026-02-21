@@ -23,7 +23,7 @@ serve(async (req) => {
     }));
 
     const response = await fetch(
-      "https://router.huggingface.co/hf-inference/models/microsoft/Phi-3-mini-4k-instruct/v1/chat/completions",
+      "https://router.huggingface.co/novita/v1/chat/completions",
       {
         method: "POST",
         headers: {
@@ -31,7 +31,7 @@ serve(async (req) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "microsoft/Phi-3-mini-4k-instruct",
+          model: "meta-llama/Llama-3.1-8B-Instruct",
           messages: [
             { role: "system", content: "You are Promi, a helpful AI assistant created by C.Rajesha. Be concise and helpful." },
             ...formattedMessages,
