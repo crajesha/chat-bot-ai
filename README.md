@@ -1,8 +1,8 @@
-# Welcome to your Lovable project
+# Welcome to project
 
 ## Project info
 
-**URL**: chat-buddy-ai-261.vercel.app
+**URL**: [chat-buddy-ai-261.vercel.app](https://chat-buddy-ai-261.vercel.app/)
 
 ## How can I edit this code?
 
