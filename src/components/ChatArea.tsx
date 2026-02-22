@@ -3,6 +3,7 @@ import { Send, Menu, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import type { Conversation, Message } from "@/pages/Index";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {
   conversation: Conversation | null;
@@ -21,6 +22,8 @@ export const ChatArea = ({
   sidebarOpen,
   onToggleSidebar,
 }: Props) => {
+  const { displayName } = useAuth();
+  const userName = displayName || "User";
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
