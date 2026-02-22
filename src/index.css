@@ -2,52 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Serif:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 220 13% 18%;
-    --foreground: 210 20% 92%;
+    --background: 0 0% 7%;
+    --foreground: 40 20% 90%;
 
-    --card: 220 13% 22%;
-    --card-foreground: 210 20% 92%;
+    --card: 0 0% 11%;
+    --card-foreground: 40 20% 90%;
 
-    --popover: 220 13% 22%;
-    --popover-foreground: 210 20% 92%;
+    --popover: 0 0% 11%;
+    --popover-foreground: 40 20% 90%;
 
-    --primary: 160 60% 45%;
-    --primary-foreground: 220 13% 10%;
+    --primary: 40 30% 80%;
+    --primary-foreground: 0 0% 7%;
 
-    --secondary: 220 13% 26%;
-    --secondary-foreground: 210 20% 85%;
+    --secondary: 0 0% 14%;
+    --secondary-foreground: 40 15% 75%;
 
-    --muted: 220 13% 24%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 160 50% 40%;
-    --accent-foreground: 210 20% 92%;
+    --accent: 35 25% 65%;
+    --accent-foreground: 0 0% 7%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 40 20% 95%;
 
-    --border: 220 13% 28%;
-    --input: 220 13% 28%;
-    --ring: 160 60% 45%;
+    --border: 0 0% 18%;
+    --input: 0 0% 16%;
+    --ring: 40 30% 80%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --sidebar-background: 220 13% 14%;
-    --sidebar-foreground: 210 20% 75%;
-    --sidebar-primary: 160 60% 45%;
-    --sidebar-primary-foreground: 220 13% 10%;
-    --sidebar-accent: 220 13% 20%;
-    --sidebar-accent-foreground: 210 20% 92%;
-    --sidebar-border: 220 13% 22%;
-    --sidebar-ring: 160 60% 45%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 55%;
+    --sidebar-primary: 40 30% 80%;
+    --sidebar-primary-foreground: 0 0% 7%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 40 20% 90%;
+    --sidebar-border: 0 0% 14%;
+    --sidebar-ring: 40 30% 80%;
 
-    --chat-user: 220 13% 26%;
-    --chat-assistant: 220 13% 20%;
-    --chat-input: 220 13% 22%;
+    --chat-user: 0 0% 10%;
+    --chat-assistant: 0 0% 8%;
+    --chat-input: 0 0% 12%;
   }
 }
 
@@ -58,11 +58,11 @@
 
   body {
     @apply bg-background text-foreground font-sans;
-    font-family: 'Inter', sans-serif;
+    font-family: 'IBM Plex Mono', monospace;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Noto Serif', serif;
   }
 }
 
@@ -74,11 +74,11 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(220 13% 30%);
+  background: hsl(0 0% 22%);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(220 13% 40%);
+  background: hsl(0 0% 32%);
 }
 
 /* Markdown prose styling */
@@ -86,13 +86,13 @@
   color: hsl(210 20% 92%);
 }
 .prose code {
-  background: hsl(220 13% 16%);
+  background: hsl(0 0% 14%);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.875em;
 }
 .prose pre {
-  background: hsl(220 13% 12%) !important;
+  background: hsl(0 0% 5%) !important;
   border-radius: 8px;
   padding: 16px;
   overflow-x: auto;
