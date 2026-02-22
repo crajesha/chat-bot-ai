@@ -31,7 +31,6 @@ const Auth = () => {
           },
         });
         if (error) throw error;
-        setMessage("Check your email to confirm your account!");
       }
     } catch (err: any) {
       setError(err.message || "Something went wrong");
