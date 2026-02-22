@@ -1,5 +1,6 @@
-import { MessageSquarePlus, Trash2, Menu } from "lucide-react";
+import { MessageSquarePlus, Trash2, LogOut } from "lucide-react";
 import type { Conversation } from "@/pages/Index";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Props = {
   conversations: Conversation[];
@@ -19,6 +20,8 @@ export const ChatSidebar = ({
   onDelete,
   isOpen,
 }: Props) => {
+  const { displayName, signOut } = useAuth();
+
   if (!isOpen) return null;
 
   return (
@@ -62,7 +65,17 @@ export const ChatSidebar = ({
       </div>
 
       {/* Footer */}
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-sidebar-border space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-sm text-sidebar-foreground truncate">{displayName || "User"}</span>
+          <button
+            onClick={signOut}
+            className="p-1.5 rounded-lg hover:bg-sidebar-accent transition-colors text-sidebar-foreground"
+            title="Sign out"
+          >
+            <LogOut size={16} />
+          </button>
+        </div>
         <p className="text-xs text-muted-foreground text-center">
           Developed by C.Rajesha
         </p>
