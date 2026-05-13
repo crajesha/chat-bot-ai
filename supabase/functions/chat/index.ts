@@ -1,4 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { generateText } from "npm:ai";
+import { createOpenAICompatible } from "npm:@ai-sdk/openai-compatible";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -13,46 +15,42 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const HF_KEY = Deno.env.get("HUGGINGFACE_API_KEY");
-    if (!HF_KEY) throw new Error("HUGGINGFACE_API_KEY is not configured");
+    const lovableApiKey = Deno.env.get("LOVABLE_API_KEY");
+    if (!lovableApiKey) throw new Error("LOVABLE_API_KEY is not configured");
 
-    // Build prompt in Mistral instruct format
-    const formattedMessages = messages.map((m: { role: string; content: string }) => ({
-      role: m.role === "user" ? "user" : "assistant",
-      content: m.content,
-    }));
-
-    const response = await fetch(
-      "https://router.huggingface.co/sambanova/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${HF_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "Meta-Llama-3.1-8B-Instruct",
-          messages: [
-            { role: "system", content: "You are Promi, a helpful AI assistant created by C.Rajesha. Be concise and helpful." },
-            ...formattedMessages,
-          ],
-          max_tokens: 1024,
-          temperature: 0.7,
-        }),
-      }
-    );
-    if (!response.ok) {
-      const errText = await response.text();
-      console.error("HuggingFace error:", response.status, errText);
+    if (!Array.isArray(messages)) {
       return new Response(
-        JSON.stringify({ error: "AI model error", details: errText }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        JSON.stringify({ error: "Invalid request", details: "messages must be an array" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const data = await response.json();
-    const generatedText =
-      data?.choices?.[0]?.message?.content?.trim() || data?.[0]?.generated_text?.trim() || "I'm not sure how to respond to that.";
+    const formattedMessages = messages
+      .filter((m: { role?: string; content?: string }) =>
+        (m.role === "user" || m.role === "assistant") && typeof m.content === "string"
+      )
+      .map((m: { role: "user" | "assistant"; content: string }) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
+    const gateway = createOpenAICompatible({
+      name: "lovable-ai",
+      baseURL: "https://ai.gateway.lovable.dev/v1",
+      headers: {
+        "Lovable-API-Key": lovableApiKey,
+      },
+    });
+
+    const { text } = await generateText({
+      model: gateway("google/gemini-3-flash-preview"),
+      system: "You are Promi, a helpful AI assistant created by C.Rajesha. Be concise and helpful.",
+      messages: formattedMessages,
+      maxOutputTokens: 1024,
+      temperature: 0.7,
+    });
+
+    const generatedText = text.trim() || "I'm not sure how to respond to that.";
 
     return new Response(
       JSON.stringify({ response: generatedText }),
