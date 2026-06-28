@@ -1,6 +1,13 @@
 # Welcome to project
 
-## Project info
+## Project Overview
+
+Chat Bot AI is a full-stack AI-powered conversational chat application built with React 18, TypeScript, and Vite, designed to deliver a fast, responsive, and intelligent chat experience. The application features secure email-based authentication powered by Supabase, allowing users to sign up, log in, and maintain persistent sessions across the app. Users can create and manage multiple independent chat conversations, with each session maintaining its own message history and auto-generated title based on the first message sent.
+
+At its core, the app integrates OpenAI via Supabase Edge Functions to generate AI responses in real time, with messages rendered using React Markdown for rich text formatting including code blocks, lists, and more. The user interface is built using Tailwind CSS and shadcn/ui components, offering a clean, modern design that works seamlessly across both desktop and mobile devices, complete with a collapsible sidebar for conversation navigation and a welcoming prompt screen for first-time users.
+
+The codebase is written in 96.8% TypeScript, following strict type safety with React Context API for global auth state, TanStack Query for server-state management, React Hook Form with Zod for validated form handling, and React Router v6 for client-side navigation with protected routes. The project is deployed on Vercel and maintained under the MIT License.
+
 
 **URL**: [chat-buddy-ai-261.vercel.app](https://chat-buddy-ai-261.vercel.app/)
 
